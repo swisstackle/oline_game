@@ -7,4 +7,6 @@ Same counts for individuals who compete in a college football league, highschool
 
 Therefore I will not provide any instructions on how to install the software.
 
-For prices and support: alainsch@buffalo.edu
+However, I am looking for testers. 
+
+For prices, testers or other support: alainsch@buffalo.edu
