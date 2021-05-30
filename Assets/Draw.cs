@@ -29,7 +29,11 @@ public class Draw : MonoBehaviour
     public Text text4;
     private Vector3[][] lines;
 
-   
+    private Vector3 cameraPos;
+
+    [SerializeField] private GameObject maincam;
+
+
 
     private List<GameObject> pathMovers;
     //public Button backButton;
@@ -45,6 +49,8 @@ public class Draw : MonoBehaviour
 
         linePrefab.gameObject.SetActive(false);
         GameObject json = GlobalVariables.json;
+        
+
         string jsonString = json.GetComponent<Text>().text;
         var settings = new Newtonsoft.Json.JsonSerializerSettings();
         // This tells your serializer that multiple references are okay.
@@ -55,6 +61,9 @@ public class Draw : MonoBehaviour
     }
     void Start()
     {
+        text4.text = GlobalVariables.camPosition.transform.position.ToString();
+        maincam.transform.position = GlobalVariables.camPosition.transform.position;
+        text4.text = text4.text + " " + maincam.transform.position;
         CreatePathMovers();
     }
 

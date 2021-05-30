@@ -5,6 +5,7 @@ using UnityEngine;
 public static class GlobalVariables
 {
     public static GameObject json;
+    public static GameObject camPosition;
     
 }
    
