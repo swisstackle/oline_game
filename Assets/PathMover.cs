@@ -13,9 +13,20 @@ public class PathMover : MonoBehaviour
     private List<GameObject> lineObjects;
 
     private NavMeshAgent nav;
+    /*
+     * <summary>
+     * Queue is used so that we cna deque each time the player needs a new position/moves.
+     * </summary>
+     */
     private Queue<Vector3> pathPoints;
     public Text debugtext;
     public Text debugtext2;
+
+    /*
+     * <summary>
+     * Initializing
+     * </summary>
+     */
     void Awake()
     {
         
@@ -26,6 +37,12 @@ public class PathMover : MonoBehaviour
         lineObjects = draw.getLineObjects();
 
     }
+
+    /*
+     * <summary>
+     * Sets the path for the player
+     * </summary>
+     */
     public void setPoints(Vector3[] points)
     {
         pathPoints = new Queue<Vector3>(points);
@@ -42,7 +59,11 @@ public class PathMover : MonoBehaviour
         }
 
     }
-
+    /*
+     * <summary>
+     * Sets the next destination for the navmeshagent, so that the player can move there
+     * </summary>
+     */
     void UpdatePathing()
     {
         Vector3 dest = pathPoints.Dequeue();
@@ -50,6 +71,11 @@ public class PathMover : MonoBehaviour
         
 
     }
+    /*
+     * <summary>
+     * Checks whether we should actually set the destination.
+     * </summary>
+     */
     private bool ShouldSetDestination()
     {
         

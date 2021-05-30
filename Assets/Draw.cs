@@ -13,32 +13,33 @@ public class Draw : MonoBehaviour
     
     public OVRInput.Controller controller;
 
-    public GameObject thePathMover;
-    private LineRenderer lineRenderer;
-    public GameObject linePrefab;
-    private GameObject currentLine;
-    public Material red;
-    public Button jsonButton;
-    public GameObject parentOfLines;
+    [SerializeField] private GameObject thePathMover; //prefab for player
+    private LineRenderer lineRenderer; //linerenderer for creatline() function
+    [SerializeField] private GameObject linePrefab; // the prefab of a playerpath/line
+    private GameObject currentLine; // the currentline getting created whenever creatline() is called
+    [SerializeField] private GameObject parentOfLines;
 
-    private List<GameObject> lineObjects;
+    private List<GameObject> lineObjects; //current list of paths/lines
 
-    public Text text;
-    public Text text2;
-    public Text text3;
-    public Text text4;
-    private Vector3[][] lines;
+    [SerializeField] private Text text; //debugpurposes
+    [SerializeField] private Text text2;//debugpurposes
+    [SerializeField] private Text text3;//debugpurposes
+    [SerializeField] private Text text4;//debugpurposes
+    private Vector3[][] lines; // current positions of all paths/lines
 
-    private Vector3 cameraPos;
+    private Vector3 cameraPos; //the vr camera rig position. Has to be placed according to what offensive line positions has been selected.
 
-    [SerializeField] private GameObject maincam;
+    [SerializeField] private GameObject maincam; //the vr camera rig object
 
 
 
-    private List<GameObject> pathMovers;
-    //public Button backButton;
+    private List<GameObject> pathMovers; // the list of playerobjects (defensive and offensive players)
 
-
+    /*
+     * <summary>
+     * Initializing JSON and Lists
+     * </summary>
+     */
     private void Awake()
     {
         pathMovers = new List<GameObject>();
@@ -48,7 +49,7 @@ public class Draw : MonoBehaviour
 
 
         linePrefab.gameObject.SetActive(false);
-        GameObject json = GlobalVariables.json;
+        GameObject json = GlobalVariables.json; //The json for the player paths are saved in a static class named GlobalVariables. All the GameObjects in there are marked with DontDestroyOnLoad() so that they are still available after the transition from the Menu-Scene
         
 
         string jsonString = json.GetComponent<Text>().text;
@@ -57,26 +58,46 @@ public class Draw : MonoBehaviour
         settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
         lines = JsonConvert.DeserializeObject<Vector3[][]>(jsonString, settings);
         //backButton.GetComponent<Button>().onClick.AddListener(back);
+
         CreateLines();
     }
+    /*
+     * <summary>
+     * Sets position of Camera according to Football Position selected
+     * </summary>
+     */
     void Start()
     {
-        text4.text = GlobalVariables.camPosition.transform.position.ToString();
+        text4.text = GlobalVariables.camPosition.transform.position.ToString(); 
         maincam.transform.position = GlobalVariables.camPosition.transform.position;
         text4.text = text4.text + " " + maincam.transform.position;
         CreatePathMovers();
     }
 
+    /*
+     * <summary>
+     * Function to get Back to the Menu Scene
+     * </summary>
+     */
     void back()
     {
         SceneManager.LoadScene(sceneName: "Select");
     }
+    /*
+     * <returns>
+     * All Path/Line objects currently in the lists
+     * </returns>
+     */
     public List<GameObject> getLineObjects()
     {
         return this.lineObjects;
     }
 
-
+    /*
+     * <summary>
+     * Creates all paths for the players in the 3D world. Had to make some translations because the vectors in the 2D-Editor are alligned differently
+     * </summary>
+     */
     void CreateLines()
     {
         try
@@ -125,6 +146,11 @@ public class Draw : MonoBehaviour
 
     }
 
+    /*
+     * <summary>
+     * Setting up a player at the start of each line.
+     * </summary>
+     */
     void CreatePathMovers()
     {
         try
@@ -164,18 +190,17 @@ public class Draw : MonoBehaviour
         
     }
 
-    // Update is called once per frame
+    /*
+     * <summary>
+     * Checks for B button on Oculus Controller so that player can go back to Menu.
+     * </summary>
+     */
     void Update()
     {
         if (OVRInput.Get(OVRInput.Button.Two))
         {
             back();
         }
-    }
-
-    void printJson()
-    {
-
     }
 }
 

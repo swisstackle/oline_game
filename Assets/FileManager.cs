@@ -13,21 +13,48 @@ public class FileManager : MonoBehaviour
     
     
     public UnityEngine.UI.Button startButton;
+    /*
+     * <summary>
+     * UI Manager.
+     * </summary>
+     */
     private UIManager uimanager;
-    public Text debugtext;
+    public Text debugtext; 
     public Text debugtext2;
 
+    /*
+     * <summary>
+     * Path to JSON file
+     * </summary>
+     */
     private string path;
 
     [SerializeField] private GameObject mainCam;
+
+    /*
+     * <summary>
+     * Buttons to select football position
+     * </summary>
+     */
     [SerializeField] private Button ltbutton;
     [SerializeField] private Button lgbutton;
     [SerializeField] private Button cbutton;
     [SerializeField] private Button rgbutton;
     [SerializeField] private Button rtbutton;
+
+    /*
+     * <summary>
+     * Camera position for ingame
+     * </summary>
+     */
     private Vector3 camPosition;
 
 
+    /*
+     * <summary>
+     * Initializing variables
+     * </summary>
+     */
     void Start()
     {
         camPosition = new Vector3();
@@ -56,6 +83,12 @@ public class FileManager : MonoBehaviour
     {
         
     }
+
+    /*
+     * <summary>
+     * Sets value of Vector for Camera according to Football Position selected
+     * </summary>
+     */
     void setCamPosition(string footballposition)
     {
         switch (footballposition)
@@ -72,8 +105,12 @@ public class FileManager : MonoBehaviour
 
     }
 
-    
 
+    /*
+     * <summary>
+     * Displays all files in Scrollview
+     * </summary>
+     */
     void ShowFiles()
     {
         string[] files = Directory.GetFiles(path);
@@ -92,7 +129,11 @@ public class FileManager : MonoBehaviour
 
         }
     }
-
+    /*
+     * <summary>
+     * Loads, puts JSON and cam position into the global variables (so that the 
+     * </summary>
+     */
     private void Load(string filepath)
     {
 

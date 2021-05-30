@@ -6,6 +6,11 @@ using System.IO;
 
 using UnityEngine.UI;
 
+/*
+     * <summary>
+     * This class is literally just to add a button to the ScrollView. Nothing Crazy.
+     * </summary>
+     */
 public class UIManager : MonoBehaviour
 {
     public UnityEngine.UI.Button startButton;
