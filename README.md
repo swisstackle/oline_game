@@ -14,6 +14,6 @@ Same counts for individuals who compete in a college football league, highschool
 
 Therefore I will not provide any instructions on how to install the software.
 
-However, I am looking for testers. 
+However, I am looking for testers and developers. You can obviously make pull requests any time you want and if I accept them, you will be granted part of the money if the software sells; we obviously would have to come to an agreement on who takes how much money, but I'm sure we will if you email me, I don't bite :D.
 
-For prices, testers or other support: alainsch@buffalo.edu
+For prices, testers, developers or other support: alainsch@buffalo.edu.
