@@ -132,6 +132,7 @@ public class Draw : MonoBehaviour
                     lineRenderer.SetPosition(lineRenderer.positionCount - 1, lines[i][j]);
 
                 }
+                currentLine.GetComponent<LineRenderer>().Simplify(0.01f);
                 currentLine.SetActive(true);
                 lineObjects.Add(currentLine);
             }
