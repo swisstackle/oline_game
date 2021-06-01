@@ -7,6 +7,7 @@ using System.IO;
 using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
+using System.Linq;
 
 public class Draw : MonoBehaviour
 {
@@ -72,6 +73,27 @@ public class Draw : MonoBehaviour
         maincam.transform.position = GlobalVariables.camPosition.transform.position;
         text4.text = text4.text + " " + maincam.transform.position;
         CreatePathMovers();
+        StartCoroutine(CountdownToStart());
+        
+    }
+
+    /*
+    * <summary>
+    * Timer so that the play starts after 5 seconds
+    * </summary>
+    */
+    IEnumerator CountdownToStart()
+    {
+        int time = 5;
+        while(time > 0)
+        {
+            text4.text = time.ToString();
+            yield return new WaitForSeconds(1f);
+            time--;
+        }
+        text4.text = "0";
+        movePathMovers();
+
     }
 
     /*
@@ -147,6 +169,26 @@ public class Draw : MonoBehaviour
 
     }
 
+    List<Vector3[]> getPositions()
+    {
+        List<Vector3[]> linePositions = new List<Vector3[]>();
+        foreach (var lineObject in this.lineObjects)
+        {
+            LineRenderer renderer = lineObject.GetComponent<LineRenderer>();
+            int posCount = renderer.positionCount;
+            Vector3[] positions = new Vector3[posCount];
+
+            renderer.GetPositions(positions);
+            for (int i = 0; i < positions.Length; i++)
+            {
+                positions[i] = Vector3.Scale(positions[i], new Vector3(10, 10, 10));
+                positions[i].y = 1;
+            }
+            linePositions.Add(positions);
+
+        }
+        return linePositions;
+    }
     /*
      * <summary>
      * Setting up a player at the start of each line.
@@ -154,41 +196,39 @@ public class Draw : MonoBehaviour
      */
     void CreatePathMovers()
     {
+        List<Vector3[]> linePositions = getPositions();
+        foreach (Vector3[] posis in linePositions)
+        {
+
+
+            GameObject mover = Instantiate(thePathMover, posis[0], Quaternion.identity);
+            mover.SetActive(true);
+            pathMovers.Add(mover);
+        }
+    }
+    void movePathMovers()
+    {
+        int i = 0;
+        List<Vector3[]> posis = getPositions();
         try
         {
-            foreach (var lineObject in this.lineObjects)
+            foreach (var mover in pathMovers)
             {
-                LineRenderer renderer = lineObject.GetComponent<LineRenderer>();
-                int posCount = renderer.positionCount;
-                Vector3[] positions = new Vector3[posCount];
-
-                renderer.GetPositions(positions);
-                for (int i = 0; i < positions.Length; i++)
-                {
-                   positions[i] =  Vector3.Scale(positions[i], new Vector3(10, 10, 10));
-                   positions[i].y = 1;
-                }
-
-                
-
-                GameObject mover = Instantiate(thePathMover, positions[0], Quaternion.identity);
-                
-                
                 mover.SetActive(true);
-
                 PathMover pathMover = mover.GetComponent<PathMover>();
                 pathMover.debugtext = text3;
                 pathMover.debugtext2 = text4;
-                
-                pathMover.setPoints(positions);
+          
+                pathMover.setPoints(posis.ElementAt(i));
+                i++;
             }
-            
+
         }
-        catch(System.Exception e)
+        catch (System.Exception e)
         {
             text.text = e.ToString();
         }
-        
+
     }
 
     /*
