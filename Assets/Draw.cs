@@ -32,8 +32,6 @@ public class Draw : MonoBehaviour
 
     [SerializeField] private GameObject maincam; //the vr camera rig object
 
-
-
     private List<GameObject> pathMovers; // the list of playerobjects (defensive and offensive players)
 
     /*
@@ -74,7 +72,6 @@ public class Draw : MonoBehaviour
         text4.text = text4.text + " " + maincam.transform.position;
         CreatePathMovers();
         StartCoroutine(CountdownToStart());
-        
     }
 
     /*
@@ -93,7 +90,6 @@ public class Draw : MonoBehaviour
         }
         text4.text = "0";
         movePathMovers();
-
     }
 
     /*
@@ -160,6 +156,7 @@ public class Draw : MonoBehaviour
             }
 
         }
+
         catch (System.Exception e)
         {
             text.verticalOverflow = VerticalWrapMode.Overflow;
@@ -199,8 +196,6 @@ public class Draw : MonoBehaviour
         List<Vector3[]> linePositions = getPositions();
         foreach (Vector3[] posis in linePositions)
         {
-
-
             GameObject mover = Instantiate(thePathMover, posis[0], Quaternion.identity);
             mover.SetActive(true);
             pathMovers.Add(mover);

@@ -22,6 +22,9 @@ public class PathMover : MonoBehaviour
     public Text debugtext;
     public Text debugtext2;
 
+    private Animator anim;
+    private CharacterController cc;
+
     /*
      * <summary>
      * Initializing
@@ -35,7 +38,15 @@ public class PathMover : MonoBehaviour
         obj = GameObject.Find("Draw");
         draw = obj.GetComponent<Draw>();
         lineObjects = draw.getLineObjects();
-
+        anim = GetComponent<Animator>();
+        nav.updatePosition = false;
+        cc = GetComponent<CharacterController>();
+    }
+    void start()
+    {
+        transform.eulerAngles = new Vector3(0, -90, 0);
+        Vector3 movedir = transform.TransformDirection(new Vector3(0, -90, 0));
+        cc.Move(movedir * Time.deltaTime);
     }
 
     /*
@@ -46,7 +57,6 @@ public class PathMover : MonoBehaviour
     public void setPoints(Vector3[] points)
     {
         pathPoints = new Queue<Vector3>(points);
-        
     }
 
     // Update is called once per frame
@@ -67,10 +77,34 @@ public class PathMover : MonoBehaviour
     void UpdatePathing()
     {
         Vector3 dest = pathPoints.Dequeue();
-            nav.SetDestination(dest);
-        
+         nav.SetDestination(dest);
+        Vector3 worldDeltaPosition = dest - transform.position;
+
+        Vector3 groundDeltaPosition = Vector3.zero;
+
+        groundDeltaPosition.x = Vector3.Dot(transform.right, worldDeltaPosition);
+        groundDeltaPosition.y = Vector3.Dot(transform.forward, worldDeltaPosition);
+
+        Vector3 velocity = Vector3.zero; 
+
+        if(Time.deltaTime > 1e-5f)
+        {
+            velocity = groundDeltaPosition / Time.deltaTime;
+        }
+    
+        bool shouldMove = velocity.magnitude > 0.025f && nav.remainingDistance > nav.radius;
+
+        anim.SetBool("move", shouldMove);
+        anim.SetFloat("velx", velocity.x);
+        anim.SetFloat("vely", velocity.y);
 
     }
+    private void OnAnimatorMove()
+    {
+        transform.position = nav.nextPosition;
+        
+    }
+
     /*
      * <summary>
      * Checks whether we should actually set the destination.
