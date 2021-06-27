@@ -77,7 +77,7 @@ public class PathMover : MonoBehaviour
     void UpdatePathing()
     {
         Vector3 dest = pathPoints.Dequeue();
-         nav.SetDestination(dest);
+        nav.SetDestination(dest);
         Vector3 worldDeltaPosition = dest - transform.position;
 
         Vector3 groundDeltaPosition = Vector3.zero;
@@ -112,9 +112,6 @@ public class PathMover : MonoBehaviour
      */
     private bool ShouldSetDestination()
     {
-        
-
-        
         if (pathPoints.Count < 1)
         {
    

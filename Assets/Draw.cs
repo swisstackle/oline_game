@@ -28,7 +28,8 @@ public class Draw : MonoBehaviour
     [SerializeField] private Text text4;//debugpurposes
     private Vector3[][] lines; // current positions of all paths/lines
 
-    private Vector3 cameraPos; //the vr camera rig position. Has to be placed according to what offensive line positions has been selected.
+    private Vector3 cameraPos; //the vr camera rig position. Has to be placed a
+                               //ccording to what offensive line positions has been selected.
 
     [SerializeField] private GameObject maincam; //the vr camera rig object
 
@@ -136,7 +137,8 @@ public class Draw : MonoBehaviour
                     var tempX = lines[i][j].x;
                     var tempY = lines[i][j].y;
                     var tempZ = lines[i][j].z;
-
+                    //z = sin(theta), 
+                    
                     lines[i][j].x = tempY;
                     lines[i][j].z = tempX;
                     lines[i][j].y = 0;
