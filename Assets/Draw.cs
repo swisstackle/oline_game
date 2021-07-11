@@ -26,7 +26,14 @@ public class Draw : MonoBehaviour
     [SerializeField] private Text text2;//debugpurposes
     [SerializeField] private Text text3;//debugpurposes
     [SerializeField] private Text text4;//debugpurposes
+
+    [SerializeField] private GameObject olinePrefab;
+    [SerializeField] private Button pauseButton;
+    [SerializeField] private Button resetButton;
     private Vector3[][] lines; // current positions of all paths/lines
+
+    private bool started;
+    private bool paused;
 
     private Vector3 cameraPos; //the vr camera rig position. Has to be placed a
                                //ccording to what offensive line positions has been selected.
@@ -60,6 +67,8 @@ public class Draw : MonoBehaviour
         //backButton.GetComponent<Button>().onClick.AddListener(back);
 
         CreateLines();
+        started = false;
+        paused = false;
     }
     /*
      * <summary>
@@ -71,6 +80,9 @@ public class Draw : MonoBehaviour
         text4.text = GlobalVariables.camPosition.transform.position.ToString(); 
         maincam.transform.position = GlobalVariables.camPosition.transform.position;
         text4.text = text4.text + " " + maincam.transform.position;
+        pauseButton.onClick.AddListener(pauseGame);
+        resetButton.onClick.AddListener(reset);
+        placeOline();
         CreatePathMovers();
         StartCoroutine(CountdownToStart());
     }
@@ -91,6 +103,7 @@ public class Draw : MonoBehaviour
         }
         text4.text = "0";
         movePathMovers();
+        started = true;
     }
 
     /*
@@ -110,6 +123,28 @@ public class Draw : MonoBehaviour
     public List<GameObject> getLineObjects()
     {
         return this.lineObjects;
+    }
+
+
+
+    void placeOline()
+    {
+
+        GameObject lt = Instantiate(olinePrefab, new Vector3(0, 0, 2), Quaternion.identity);
+        GameObject lg = Instantiate(olinePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        GameObject c = Instantiate(olinePrefab, new Vector3(0, 0, -2), Quaternion.identity);
+        GameObject rg = Instantiate(olinePrefab, new Vector3(0, 0, -4), Quaternion.identity);
+        GameObject rt = Instantiate(olinePrefab, new Vector3(0, 0, -6), Quaternion.identity);
+
+        lt.SetActive(true);
+        lg.SetActive(true);
+
+        c.SetActive(true);
+
+        rg.SetActive(true);
+
+        rt.SetActive(true);
+
     }
 
     /*
@@ -215,7 +250,7 @@ public class Draw : MonoBehaviour
                 PathMover pathMover = mover.GetComponent<PathMover>();
                 pathMover.debugtext = text3;
                 pathMover.debugtext2 = text4;
-          
+                
                 pathMover.setPoints(posis.ElementAt(i));
                 i++;
             }
@@ -227,7 +262,34 @@ public class Draw : MonoBehaviour
         }
 
     }
-
+   void pauseGame()
+    {
+        if (paused)
+        {
+            paused = false;
+            foreach (var mover in pathMovers)
+            {
+                PathMover pathMover = mover.GetComponent<PathMover>();
+                pathMover.paused = false;
+            }
+        }
+        else
+        {
+            paused = true;
+            foreach (var mover in pathMovers)
+            {
+                PathMover pathMover = mover.GetComponent<PathMover>();
+                pathMover.paused = true;
+            }
+        }
+       
+        
+    }
+    void reset()
+    {
+        SceneManager.LoadScene(sceneName: "Game");
+    }
+   
     /*
      * <summary>
      * Checks for B button on Oculus Controller so that player can go back to Menu.
@@ -235,10 +297,13 @@ public class Draw : MonoBehaviour
      */
     void Update()
     {
-        if (OVRInput.Get(OVRInput.Button.Two))
+       
+        if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, controller) > 0.1f)
         {
             back();
         }
+       
+
     }
 }
 

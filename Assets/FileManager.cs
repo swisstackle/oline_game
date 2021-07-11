@@ -41,6 +41,7 @@ public class FileManager : MonoBehaviour
     [SerializeField] private Button cbutton;
     [SerializeField] private Button rgbutton;
     [SerializeField] private Button rtbutton;
+    
 
     /*
      * <summary>
@@ -65,7 +66,7 @@ public class FileManager : MonoBehaviour
         debugtext.verticalOverflow = VerticalWrapMode.Overflow;
         debugtext.text=Application.persistentDataPath;
         ShowFiles();
-
+        setCamPosition("c");
         ltbutton.onClick.AddListener(() => setCamPosition("lt"));
         lgbutton.onClick.AddListener(() => setCamPosition("lg"));
         cbutton.onClick.AddListener(() => setCamPosition("c"));
@@ -93,11 +94,11 @@ public class FileManager : MonoBehaviour
     {
         switch (footballposition)
         {
-            case "lt": camPosition = new Vector3(0, 0, 4); break;
-            case "lg": camPosition = new Vector3(0, 0, 2); break;
-            case "c":  camPosition = new Vector3(0, 0, 0); break;
-            case "rg": camPosition = new Vector3(0, 0, -2); break;
-            case "rt": camPosition = new Vector3(0, 0, -4); break;
+            case "lt": camPosition = new Vector3(0, 0, 2); break;
+            case "lg": camPosition = new Vector3(0, 0, 0); break;
+            case "c":  camPosition = new Vector3(0, 0, -2); break;
+            case "rg": camPosition = new Vector3(0, 0, -4); break;
+            case "rt": camPosition = new Vector3(0, 0, -6); break;
 
             default:
                 break;
@@ -154,8 +155,8 @@ public class FileManager : MonoBehaviour
 
         SceneManager.LoadScene(sceneName: "Game");
     }
-    void Cancel()
+    void placeOline()
     {
-
+        
     }
 }

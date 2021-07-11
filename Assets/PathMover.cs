@@ -24,6 +24,7 @@ public class PathMover : MonoBehaviour
 
     private Animator anim;
     private CharacterController cc;
+    public bool paused;
 
     /*
      * <summary>
@@ -41,6 +42,7 @@ public class PathMover : MonoBehaviour
         anim = GetComponent<Animator>();
         nav.updatePosition = false;
         cc = GetComponent<CharacterController>();
+        paused = false;
     }
     void start()
     {
@@ -76,27 +78,35 @@ public class PathMover : MonoBehaviour
      */
     void UpdatePathing()
     {
-        Vector3 dest = pathPoints.Dequeue();
-        nav.SetDestination(dest);
-        Vector3 worldDeltaPosition = dest - transform.position;
-
-        Vector3 groundDeltaPosition = Vector3.zero;
-
-        groundDeltaPosition.x = Vector3.Dot(transform.right, worldDeltaPosition);
-        groundDeltaPosition.y = Vector3.Dot(transform.forward, worldDeltaPosition);
-
-        Vector3 velocity = Vector3.zero; 
-
-        if(Time.deltaTime > 1e-5f)
+        if (paused)
         {
-            velocity = groundDeltaPosition / Time.deltaTime;
+            anim.SetBool("move", false);
         }
-    
-        bool shouldMove = velocity.magnitude > 0.025f && nav.remainingDistance > nav.radius;
+        else
+        {
+            Vector3 dest = pathPoints.Dequeue();
+            nav.SetDestination(dest);
+            Vector3 worldDeltaPosition = dest - transform.position;
 
-        anim.SetBool("move", shouldMove);
-        anim.SetFloat("velx", velocity.x);
-        anim.SetFloat("vely", velocity.y);
+            Vector3 groundDeltaPosition = Vector3.zero;
+
+            groundDeltaPosition.x = Vector3.Dot(transform.right, worldDeltaPosition);
+            groundDeltaPosition.y = Vector3.Dot(transform.forward, worldDeltaPosition);
+
+            Vector3 velocity = Vector3.zero;
+
+            if (Time.deltaTime > 1e-5f)
+            {
+                velocity = groundDeltaPosition / Time.deltaTime;
+            }
+
+            bool shouldMove = velocity.magnitude > 0.025f && nav.remainingDistance > nav.radius;
+
+            anim.SetBool("move", true);
+            anim.SetFloat("velx", velocity.x);
+            anim.SetFloat("vely", velocity.y);
+        }
+        
 
     }
     private void OnAnimatorMove()
