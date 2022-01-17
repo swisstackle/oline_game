@@ -6,13 +6,7 @@ With this software, one can create every possible pressure/game/blitz play and r
 
 Especially during summer training, due to NCAA rules, practices are not allowed and thus reaction and awareness against defensive movement can't be practiced properly. With this Software you can train it anywhere and anytime you want.
 
-
 YOU MAY NOT USE THIS SOFTWARE FOR ANY COMMERCIAL PURPOSES WITHOUT BUYING THE PRODUCT
-
-So if you are a represantive of a college (or highschool/club) football team, you have to contact me first at alainsch@buffalo.edu and BUY the product.
-Same counts for individuals who compete in a college football league, highschool league or club league.
-
-Therefore I will not provide any instructions on how to install the software.
 
 However, I am looking for testers and developers. You can obviously make pull requests any time you want and if I accept them, you will be granted part of the money if the software sells; we obviously would have to come to an agreement on who takes how much money, but I'm sure we will if you email me, I don't bite :D.
 
