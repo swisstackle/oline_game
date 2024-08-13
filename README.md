@@ -1,4 +1,4 @@
-#DEPRECATED#
+# DEPRECATED
 Virtual Reality Simulator for Offensive Linemen
 
 The problem: Many young (college) offensive linemen face the problem of not having enough awareness or fast enough reaction when the Defense runs certain pressures/games/blitzes which ends up in less playing time, even if they are physically expelling; coaches won't let someone play who is insecure in these areas.
